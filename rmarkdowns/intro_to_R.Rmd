@@ -39,6 +39,8 @@ library()
 
 A new window should have opened up with a list of packages and a short description! 
 
+library()
+
 *Note*
 
 We used the `library()` function within a code chunk (discussed last video). We use code chunks in R Markdowns so that R can differentiate between normal text, like this, and code. 
@@ -69,7 +71,6 @@ system.file(package = "tidyverse") # input the name of the package in quotes
 ```
 
 If you got a response giving you a file path - you're all set! You successfully installed your first package! 
-
 #### Loading a Library
 
 To be able to use the package and its functions in R Studio, we need to load the library (a library is where the package is stored). Run the following code to load the tidyverse library in your R session:
@@ -78,6 +79,11 @@ To be able to use the package and its functions in R Studio, we need to load the
 library(tidyverse) # put the name of the package/library in the parenthesis 
 ```
 Awesome! Now we can access the many cool things that the tidyverse package can do for us. We'll start using this package and its functions as we go along.
+
+```{r}
+library(tidyverse)
+```
+
 
 [Check out the tidyverse package documentation](https://www.tidyverse.org/)
 
@@ -107,6 +113,15 @@ my_age + 5 # how old will you be in 5 years?
 
 #### <span style="color: red;">Challenge 1</span>
 Create a my_name variable with your name assigned to the variable instead of "Victoria DelaCruz". Then, create a my_age variable with your age. 
+
+```{r}
+my_name <- "TallenVidal1"
+
+my_age = 18
+
+my_age + 5 
+```
+
 
 #### Different Types of Data
 
@@ -188,6 +203,11 @@ Let's start looking into a dataset. In data science, we perform exploratory data
 library(here) # allows us to cut out long file paths, ensures reproducibility
 library(janitor) # helps us clean column names
 ```
+```{r}
+library(here)
+library(janitor)
+
+```
 
 Note: **You will most likely get an error.** If you get an error about not having these packages installed, run the install.packages("packagename") code in the console. We went over this on line 48 under the *Installing a Package* header
 
@@ -206,11 +226,23 @@ sdr_data <- read_csv(here("data/SDR-2023-Data.csv")) # assigning the dataset to 
 # to view the whole dataset you can click on sdr_data in your environment pane at the top right of your screen)
 ```
 Cleaning names
+
+```{r}
+sdr_data <- read_csv(here("data/SDR-2023-Data.csv"))
+```
+
+
+
 ```{r}
 sdr_data <- clean_names(sdr_data) # cleaning column names 
 ```
 
 Note: In programming, we don't use spaces in names (usually, if you want to use a space between words, you'd use an underscore, slash, or other punctuation). That's why we used the `clean_names` function from the `janitor` package, to clean our column names and replace spaces with underscores.
+
+```{r}
+
+```
+
 
 #### Understanding Your Data
 
@@ -294,7 +326,16 @@ What if we want to subset specific rows? We can do this by using the filter func
 #### <span style="color: red;">Challenge 2</span>
 Using the `select()` function, select two new SDG goal scores. Assign it to a variable named `SDG_scores`. 
 
+```{r}
+SDG_scores=sdr_data %>% 
+  select(goal_2_score, goal_7_score)
+
+print(SDG_scores)
+```
+
+
 *2. filter()*
+
 
 Similarly to select, `filter()` can be used to extract specific rows. Let's try this out by filtering our data for those within the Oceania region.
 
@@ -313,6 +354,13 @@ Notes:
 
 #### <span style="color: red;">Challenge 3</span>
 Using the `filter()` function, filter for another region other than Oceania. Assign it to a variable named `new_region`. 
+
+```{r}
+new_region=sdr_data %>% 
+  filter(regions_used_for_the_sdr == "East & South Asia")
+print(new_region)
+```
+
 
 **Important**
 
