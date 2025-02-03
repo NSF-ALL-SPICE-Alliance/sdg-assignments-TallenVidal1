@@ -220,3 +220,20 @@ ggplot(sdr_data, aes(x = goal_12_score,
       - are there any points that don't follow the trend (outliers)
         
         - which country(s) are outliers?
+
+```{r}
+Goal_1_and_9_Scatterplot<-ggplot(sdr_data, aes(x = goal_1_score, 
+                     y = goal_9_score, label = country)) +
+  geom_point() +
+  geom_smooth() +
+  stat_cor() +
+  theme_minimal() +
+  labs(title = "Correlation of SDG 1 and 9 Scores",
+       x = "SDG 1 Score",
+       y = "SDG 9 Score",
+       fill = "Region")
+
+ggplotly(Goal_1_and_9_Scatterplot)
+```
+#Interpretation#
+The goals 1 and 9 have a correlation coefficient of 0.81 which shows a strong positive correlation between the two goals. Goal 1 is identified as "No poverty" and Goal 9 as "Industry, innovation, and infrastructure". The positive correlation indicate that the success rates of both goals are directly correlated. I hypothesize that these two goals have a positive correlation because both goals are heavily connected to the economic strength of the country. In order to decrease the amount of poverty stricken citizens in a given country, the country's work infrastructure must be strong to support a steady cash flow that lowers the presence of poverty. In other words, success in one goal is not easily achievable without a country being successul in the other goal. This would explain the positive correlation that we see in the scatterplot above.
