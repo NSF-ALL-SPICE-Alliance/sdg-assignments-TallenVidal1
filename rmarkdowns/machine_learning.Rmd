@@ -334,7 +334,18 @@ plotPartial(pd)
 Edit this code chunk `k2 <- kmeans(sdr_data_imputed, centers = 2)` under the silhouette plot to increase the number of clusters
 
 - Then, run the code chunk `fviz_cluster(k2, data = sdr_data_imputed) + theme_minimal()` to see the new visualization with the increased number of clusters
-  
+
+```{r}
+k2 <- kmeans(sdr_data_imputed, centers = 4)
+
+fviz_cluster(k2, data = sdr_data_imputed) + theme_minimal()
+
+country_clusters <- as.data.frame(k2$cluster)
+```
+Observations
+According to the country_clusters dataframe, each group has been categorized using the country income as an identifier. Group 4 (purple), and Group 1, seem to have the largest quantity of countries, group 4 being High-income countries and group 1 being upper-middle income countries. Using this visualization we could make inferences on how the economic strength of each country influences their normalized score.
+
+
 #### <span style="color: red;">Challenge 2</span>
 
 Edit this code chunk `rf_matmort <- randomForest(normalized_score_sdg3_matmort ~ ., data = sdr_data_imputed, importance = TRUE)` to predict a different indicator score (any indicator other than normalized_score_sdg3_matmort)
@@ -345,8 +356,34 @@ Edit this code chunk `rf_matmort <- randomForest(normalized_score_sdg3_matmort ~
     
     - *Hint* make sure to continue replacing rf_matmort with the new name you assign your random forest model
 
+```{r}
+rf_pried <- randomForest(normalized_score_sdg4_primary ~ ., data = sdr_data_imputed, importance = TRUE)
+rf_pried
+#pried stands for primary (pri) education (ed)#
+importance_df_2 <- as.data.frame(rf_pried$importance)
 
+importance_df_2_top_10 <- importance_df_2 %>%
+  rownames_to_column(var = "variable") %>%
+  slice_max(n = 10, order_by = `%IncMSE`)
 
+ggplot(importance_df_2_top_10, aes(x = `%IncMSE`, y = reorder(variable, `%IncMSE`))) +
+  geom_bar(stat = "identity", fill = "steelblue", color = "black") +
+  theme_minimal() +
+  labs(title = "Most Important Variables in Predicting Primary Education Infrastructure",
+       subtitle = "Top 10",
+       y = "SDG Indicator",
+       x = "Feature Importance (% Increase in Mean Squared Error)")
 
+pdp::partial(rf_pried, pred.var = "normalized_score_sdg3_matmort", plot = TRUE)
+
+```
+
+```{r}
+pd <- pdp::partial(rf_pried, pred.var = c("normalized_score_sdg3_matmort", "normalized_score_sdg4_second"))
+# Default PDP
+plotPartial(pd)
+```
+
+As the score for sdg 3 maternal mortality and sdg 4 secondary education reaches about 70-75, the model predicts a higher score for the sdg 4 identifier of primary education. Note: The range is only 72-88
 
   
