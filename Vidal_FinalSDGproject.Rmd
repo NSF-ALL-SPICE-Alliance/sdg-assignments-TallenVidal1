@@ -103,7 +103,7 @@ The indicators for SDG are listed as normalized scores for the World Petroleum C
 
 ```{r include=FALSE, message=FALSE}
 #cleaning our data for normalized scores of SDG 1 indicators
-#Does not apear in the markdown because the results take up too much space
+#Does not appear in the markdown because the results take up too much space
 sdr_data_normalized_scores <- sdr_data_clean %>% 
   select(country, contains("normalized_score"))  
 
