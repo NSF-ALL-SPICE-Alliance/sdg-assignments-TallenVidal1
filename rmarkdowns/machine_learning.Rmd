@@ -360,7 +360,7 @@ Edit this code chunk `rf_matmort <- randomForest(normalized_score_sdg3_matmort ~
 rf_pried <- randomForest(normalized_score_sdg4_primary ~ ., data = sdr_data_imputed, importance = TRUE)
 rf_pried
 #pried stands for primary (pri) education (ed)#
-importance_df_2 <- as.data.frame(rf_pried$importance)
+importance_df_2 <- as.data.frame(rf_pried$importance)  
 
 importance_df_2_top_10 <- importance_df_2 %>%
   rownames_to_column(var = "variable") %>%

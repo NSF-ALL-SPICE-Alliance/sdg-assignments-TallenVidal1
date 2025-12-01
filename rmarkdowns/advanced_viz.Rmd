@@ -148,7 +148,7 @@ ggplot(data = sdr_data, aes(x= goal_3_score, y = goal_4_score, color = regions_u
   - hint: you will have to assign a name to the plot
 
 ```{r}
-Goal_3_and_4_SCatterplot<-ggplot(data = sdr_data, aes(x= goal_3_score, y = goal_4_score, color = regions_used_for_the_sdr)) +
+Goal_3_and_4_Scatterplot<-ggplot(data = sdr_data, aes(x= goal_3_score, y = goal_4_score, color = regions_used_for_the_sdr)) +
   geom_point()+
   theme_minimal() +
   scale_fill_viridis_d() +
@@ -157,7 +157,7 @@ Goal_3_and_4_SCatterplot<-ggplot(data = sdr_data, aes(x= goal_3_score, y = goal_
        y = "SDG 4 Score",
        fill = "Region")
 
-ggplotly(Goal_3_and_4_SCatterplot)
+ggplotly(Goal_3_and_4_Scatterplot)
 ```
 
 

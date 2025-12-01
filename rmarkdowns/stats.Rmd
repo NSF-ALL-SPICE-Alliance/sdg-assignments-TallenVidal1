@@ -231,7 +231,8 @@ Goal_1_and_9_Scatterplot<-ggplot(sdr_data, aes(x = goal_1_score,
   labs(title = "Correlation of SDG 1 and 9 Scores",
        x = "SDG 1 Score",
        y = "SDG 9 Score",
-       fill = "Region")
+       fill = "Region")+
+  stat_cor(output.type = "text", label.sep = '\n')
 
 ggplotly(Goal_1_and_9_Scatterplot)
 ```
