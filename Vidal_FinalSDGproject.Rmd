@@ -41,11 +41,12 @@ sdr_data_clean <- sdr_data %>%
   clean_names()
 ```
 
-
 ## Identifying Our Target
+
 SDG 1 = "End Poverty in all its forms everywhere"
 
 Let's take a look at the global scores of SDG 1
+
 ```{r message=FALSE}
 goal_1_histogram <- ggplot(sdr_data_clean, aes(x = goal_1_score, fill=regions_used_for_the_sdr)) +
   geom_histogram() +
@@ -59,17 +60,20 @@ goal_1_histogram <- ggplot(sdr_data_clean, aes(x = goal_1_score, fill=regions_us
 ggplotly(goal_1_histogram)
 ```
 
+## Interpretation:
 
-## Interpretation: 
-Notice that nearly all OECD countries have a score of 100 for the first SDG. This means that they have achieved or surpassed the requirements of that sustainability goal. OECD stands for "The Organization for Economic Cooperation and Development". In this organization there are 37 democracies who collaborate to promote sustainable economic growth. Their focus on sustainability explains their high scores for SDG 1. On the flip side, 0 Sub-Saharan African countries have a SDG 1 score of 100, the highest in that region being 96. This is explained by that regions lack of advanced economic resources which would consequently cause countries in that region to fall behind other countries who have a stronger economical infrastructure. 
+Notice that nearly all OECD countries have a score of 100 for the first SDG. This means that they have achieved or surpassed the requirements of that sustainability goal. OECD stands for "The Organization for Economic Cooperation and Development". In this organization there are 37 democracies who collaborate to promote sustainable economic growth. Their focus on sustainability explains their high scores for SDG 1. On the flip side, 0 Sub-Saharan African countries have a SDG 1 score of 100, the highest in that region being 96. This is explained by that region's lack of advanced economic resources which would consequently cause countries in that region to fall behind other countries who have a stronger economical infrastructure.
 
 ## Breakdown:
+
 - The y-axis is representing a total count of the countries who have a certain score (for example 55 total countries are shown to have a SDG score of 100). The highest number shown is 40 because no one region has anymore than 40 countries with a SDG score of 100 for SDG 1.
-- The x-axis shows us the SDG 1 scores from 0-100. 
-- The colors represent the regions to which the countries that are shown belong to. 
+- The x-axis shows us the SDG 1 scores from 0-100.
+- The colors represent the regions to which the countries that are shown belong to.
 
 ## SDG 1 Score on a map
+
 Building the data set for interactive map
+
 ```{r}
 world <- ne_countries(scale = "medium", returnclass = "sf")
 world <- world %>% 
@@ -80,7 +84,9 @@ sdr_data_world_joined <- st_as_sf(sdr_data_world_joined)
 sdr_data_world_joined <- st_transform(sdr_data_world_joined, "+proj=longlat +datum=WGS84")
 
 ```
+
 Coding the interactive map
+
 ```{r}
 mytext <- paste(
     "Country: ", sdr_data_world_joined$country,"<br/>", 
@@ -95,11 +101,12 @@ leaflet(sdr_data_world_joined) %>%
 ```
 
 ## Interpretation:
-I used an interactive map to visualize the global scores of SDG 1 because it is more aesthetically appealing to look at, but also makes it easier to look at all the different countries at one time. This visualization shows us that the regions with the darkest shades of pink have the highest overall score for SDG 1, meaning they are the closest to achieving the SDG of no poverty. This visualization also supports the previous histogram, because we can see that the region of Africa has some of the lowest of scores compared to the other countries around the world. In contrast, the  United States and many European countries have the highest scores on the map. This is expected because these countries are more economically developed and have stronger infrastructure which gives them the proper resources to combat poverty effectively. One strange thing I notice from this visualization is that France has no recorded score for SDG 1. This is unfortunate for the purpose of not having data for an entire country, but it is also just unusual because almost every other European country has official data for this SDG. Besides the region of Africa, majority of the countries that are shown on this visualization are making strong progress towards achieving the SDG 1 goal of no poverty
+
+I used an interactive map to visualize the global scores of SDG 1 because it is more aesthetically appealing to look at, but also makes it easier to look at all the different countries at one time. This visualization shows us that the regions with the darkest shades of pink have the highest overall score for SDG 1, meaning they are the closest to achieving the SDG of no poverty. This visualization also supports the previous histogram, because we can see that the region of Africa has some of the lowest of scores compared to the other countries around the world. In contrast, the United States and many European countries have the highest scores on the map. This is expected because these countries are more economically developed and have stronger infrastructure which gives them the proper resources to combat poverty effectively. One strange thing I notice from this visualization is that France has no recorded score for SDG 1. This is unfortunate for the purpose of not having data for an entire country, but it is also just unusual because almost every other European country has official data for this SDG. Besides the region of Africa, majority of the countries that are shown on this visualization are making strong progress towards achieving the SDG 1 goal of no poverty
 
 ## Visualizations for Normalized Scores of SDG 1 Indicators
-The indicators for SDG are listed as normalized scores for the World Petroleum Congress  (wpc) and the Low-Middle Income Country Poverty Indicator (lmicpov). 
 
+The indicators for SDG are listed as normalized scores for the World Petroleum Congress (wpc) and the Low-Middle Income Country Poverty Indicator (lmicpov).
 
 ```{r include=FALSE, message=FALSE}
 #cleaning our data for normalized scores of SDG 1 indicators
@@ -127,8 +134,8 @@ sdr_data_imputed <- missRanger(sdr_data_normalized_scores_less_na)
 
 ```
 
-
 Code for visualizations:
+
 ```{r}
 SDG_1_Indicators_Scatterplot<-ggplot(data = sdr_data_imputed, aes(x= normalized_score_sdg1_wpc, y = normalized_score_sdg1_lmicpov, color=country)) +
   geom_point()+
@@ -141,18 +148,21 @@ SDG_1_Indicators_Scatterplot<-ggplot(data = sdr_data_imputed, aes(x= normalized_
 
 ggplotly(SDG_1_Indicators_Scatterplot)
 ```
+
 ## Interpretation:
+
 This visualization show us the level at which each country is at for both indicators of the first SDG. Looking at this scatter plot we see that majority of the countries are on the right side of the plot. This means that most countries have a decently high score for the first SDG 1 indicator which is column that is labeled WPC. The WPC is the World Petroleum Congress which essentially relates to policies around fossil fuels. This relates to combating poverty because many of the economically powered countries of the world have their infrastructure reliant on fossil fuels. This fact also serves as an obstacle towards achieving SDG 1, so it is imperative that society as a whole is able to find a balance between efficient economic and sustainable use of fossil fuels. It should also be noted that even though most of the countries are on the right side, indicating higher scores in the WPC indicator, not a lot of of countries are very high up on the graph. This means that even though some countries have high WPC scores, like Pakistan with a WPC score of 94, those same countries can and are lacking in the LMIC score, Pakistan only has a LMIC score of 63.
 
 ## Breakdown:
+
 - X axis = WPC Score
 - Y axis = Low-Middle Income Score
 - Color = Country
- 
 
 ## SDG 1 Indicator Predictive Visualizations
 
 Code for predictive visualizations using machine learning
+
 ```{r}
 rf_lmicpov <- randomForest(normalized_score_sdg1_lmicpov ~ .,
                            data=sdr_data_imputed,
@@ -165,7 +175,6 @@ importance_df_1_top_10 <- importance_df_1 %>%
 
 ```
 
-
 ```{r}
 ggplot(importance_df_1_top_10, aes(x = `%IncMSE`, y = reorder(variable, `%IncMSE`))) +
   geom_bar(stat = "identity", fill = "steelblue", color = "black") +
@@ -175,6 +184,7 @@ ggplot(importance_df_1_top_10, aes(x = `%IncMSE`, y = reorder(variable, `%IncMSE
        y = "SDG Indicator",
        x = "Feature Importance (% Increase in Mean Squared Error)")
 ```
+
 Machine learning code for the second indicator
 
 ```{r include=FALSE}
@@ -190,7 +200,6 @@ importance_df_2_top_10 <- importance_df_2 %>%
 
 ```
 
-
 ```{r}
 ggplot(importance_df_2_top_10, aes(x = `%IncMSE`, y = reorder(variable, `%IncMSE`))) +
   geom_bar(stat = "identity", fill = "steelblue", color = "black") +
@@ -202,6 +211,7 @@ ggplot(importance_df_2_top_10, aes(x = `%IncMSE`, y = reorder(variable, `%IncMSE
 ```
 
 ## Linear Regression
+
 ```{r}
 ggplot(sdr_data_imputed, aes(x = normalized_score_sdg1_wpc,
                      y = normalized_score_sdg1_lmicpov)) +
@@ -216,4 +226,5 @@ ggplot(sdr_data_imputed, aes(x = normalized_score_sdg1_wpc,
 ```
 
 ## Interpretation
-Using this linear regression chart, we can see that there is a positive correlation between the two indicactor scores for SDG 1. In the top left hand side of the visualization we see that the correlation coefficient is 0.87, which is a very strong positive correlation because 0.87 is close to positive one which represents a direct correlation between two variables. This linear regression is supported by the previously used scatter plot as we see similar trajectories of the scattered points in both visualizations. The correlation coefficient being calculated also helps build off of some other observations I made previously. Although there is a strong positive correlation between the two scores, they are not directly correlated because there are a few outliers in the data. Outliers being those who have very high scores in one indicator but a lower score in the other indicator. In my earlier visualization observations, I highlighted how Pakistan was an outlier as an example. Other countries like Pakistan pull the data so that it becomes less than directly correlated.
+
+Using this linear regression chart, we can see that there is a positive correlation between the two indicator scores for SDG 1. In the top left hand side of the visualization we see that the correlation coefficient is 0.87, which is a very strong positive correlation because 0.87 is close to positive one which represents a direct correlation between two variables. This linear regression is supported by the previously used scatter plot as we see similar trajectories of the scattered points in both visualizations. The correlation coefficient being calculated also helps build off of some other observations I made previously. Although there is a strong positive correlation between the two scores, they are not directly correlated because there are a few outliers in the data. Outliers being those who have very high scores in one indicator but a lower score in the other indicator. In my earlier visualization observations, I highlighted how Pakistan was an outlier as an example. Other countries like Pakistan pull the data so that it becomes less than directly correlated.
